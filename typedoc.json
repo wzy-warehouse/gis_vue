@@ -1,0 +1,42 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "api",
+    "hooks",
+    "utils",
+    "stores",
+    "types"
+  ],
+  "out": "docs",
+  "name": "西安应急多灾种灾害链分析系统 API 文档",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeInternal": true,
+  "readme": "README.md",
+  "theme": "default",
+  "plugin": [],
+  "sort": [
+    "source-order"
+  ],
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "API",
+    "Hooks",
+    "Utils",
+    "Stores",
+    "Types",
+    "Components",
+    "*"
+  ],
+  "navigationLinks": {
+    "GitHub": "https://github.com/gis502/xian_vue_new",
+    "首页": "/"
+  },
+  "visibilityFilters": {
+    "protected": true,
+    "private": false,
+    "inherited": true,
+    "external": false
+  }
+}
