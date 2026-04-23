@@ -15,6 +15,9 @@
   <!-- 获取周边生活圈的点 -->
   <AroundComponent />
 
+  <!-- 将生活区点显示到地图 -->
+  <AroundPointShowComponent />
+
   <!-- 路径规划 -->
   <RouteComponent />
 </template>
@@ -22,6 +25,7 @@
 <script setup lang="ts">
   import AddressComponent from '@/component/address/AddressComponent.vue';
   import AroundComponent from '@/component/around/AroundComponent.vue';
+  import AroundPointShowComponent from '@/component/around/AroundPointShowComponent.vue';
   import InputComponent from '@/component/input/InputComponent.vue';
   import MapComponent from '@/component/map/MapComponent.vue';
   import SearchComponent from '@/component/search/SearchComponent.vue';

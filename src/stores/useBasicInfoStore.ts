@@ -29,9 +29,18 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
   });
 
   /**
+   * 查询条件
+   */
+  const query: Reactive<{ type: 'time' | 'distance'; value: number }> =
+    reactive({
+      type: 'time',
+      value: 0,
+    });
+
+  /**
    * 查询点列表
    */
   const pointsList: Reactive<PointResponse[]> = reactive([]);
 
-  return { originPoint, targetPoint, pointsList };
+  return { originPoint, targetPoint, query, pointsList };
 });
