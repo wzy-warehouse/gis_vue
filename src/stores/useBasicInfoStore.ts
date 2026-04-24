@@ -42,5 +42,17 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
    */
   const pointsList: Reactive<PointResponse[]> = reactive([]);
 
-  return { originPoint, targetPoint, query, pointsList };
+  /**
+   * 当前用户所在地信息
+   */
+  const currentLocation = reactive({
+    province: '',
+    city: '',
+    district: '',
+    adcode: '',
+    formattedAddress: '',
+    source: '' as '' | 'gps' | 'ip',
+  });
+
+  return { originPoint, targetPoint, query, pointsList, currentLocation };
 });
