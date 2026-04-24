@@ -7,10 +7,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Build outputs
 dist
 dist-ssr
+build
+
+# Testing
+coverage
+.nyc_output
+
+# Environment files
 *.local
+.env.local
+.env.*.local
 
 # Editor directories and files
 .vscode/*
@@ -22,4 +36,26 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Documentation
 /docs/
+
+# Package manager files (不同开发人员可能使用不同的包管理器)
+# npm
+package-lock.json
+
+# yarn
+yarn.lock
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# pnpm
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# bun
+bun.lockb
