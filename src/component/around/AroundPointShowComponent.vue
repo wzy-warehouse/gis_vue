@@ -261,16 +261,36 @@
   );
 
   /**
-   * 点击表格行，飞到对应POI位置
+   * 点击表格行，飞到对应POI位置并显示信息窗口
    */
   const handleRowClick = (row: PoiInfo) => {
     const { lon, lat } = parsePoiLocation(row.location);
 
-    // 飞到该位置
+    console.log('📍 点击表格行:', row.name);
+
+    // 1. 飞到该位置
     CesiumUtilsSingleton.flyToTarget([lon, lat, 1000], 1.5);
 
-    // 高亮对应的图标（可选）
+    // 2. 高亮对应的图标（可选）
     highlightPoiMarker(`poi_${row.id}`);
+
+    // 3. 显示POI信息窗口（延迟一点，等相机飞行开始后再显示）
+    setTimeout(() => {
+      // 获取当前视图中心点作为弹窗位置
+      const viewer = CesiumUtilsSingleton.getViewer();
+      if (viewer) {
+        const canvasWidth = viewer.canvas.width;
+        const canvasHeight = viewer.canvas.height;
+        
+        // 在屏幕右侧显示弹窗
+        const screenPosition = {
+          x: canvasWidth - 400, // 距离右边400px
+          y: canvasHeight / 2 - 150, // 垂直居中偏上
+        };
+        
+        showPoiInfoWindow(row, screenPosition);
+      }
+    }, 300);
   };
 
   /**
