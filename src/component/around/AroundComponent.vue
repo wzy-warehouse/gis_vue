@@ -29,7 +29,6 @@
       },
     ]);
     
-    console.log('✅ 起点图标已添加:', lon, lat);
   };
 
   /**
@@ -72,10 +71,6 @@
         // 添加新数据
         basicInfoStore.livingCirclePois.push(...response.pois);
 
-        console.log(
-          `成功获取 ${response.count} 个生活圈POI数据`,
-          basicInfoStore.livingCirclePois
-        );
         ElMessage.success(`找到 ${response.count} 个兴趣点`);
       } else {
         console.error('获取生活圈数据失败:', response.info);
@@ -134,7 +129,6 @@
   onMounted(() => {
     const { originPoint } = basicInfoStore;
     if (originPoint.lon && originPoint.lat) {
-      console.log('初始化起点图标:', originPoint.lon, originPoint.lat);
       addOriginMarker(originPoint.lon, originPoint.lat);
     }
   });
@@ -151,8 +145,7 @@
         return;
       }
       
-      console.log(`源点位置变化: ${oldLon},${oldLat} -> ${newLon},${newLat}`);
-      
+
       // 1. 视角飞到新位置（总是执行）
       CesiumUtilsSingleton.flyToTarget([newLon, newLat, 1000], 2);
       
@@ -164,10 +157,8 @@
         basicInfoStore.query.value &&
         basicInfoStore.query.value > 0
       ) {
-        console.log('查询条件有效，重新获取POI数据');
         fetchLivingCirclePois();
       } else {
-        console.log('查询条件未设置，仅更新起点图标和视角');
       }
     },
     { deep: true }

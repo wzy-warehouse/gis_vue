@@ -303,7 +303,6 @@
     poiClickHandler = (clickEvent: any) => {
       const pickedObject = viewer.scene.pick(clickEvent.position);
 
-      console.log('点击检测:', pickedObject);
 
       if (pickedObject) {
         // 尝试从不同位置获取ID
@@ -312,30 +311,24 @@
         // BillboardCollection中的billboard，id在pickedObject.id中
         if (pickedObject.id && typeof pickedObject.id === 'string') {
           primitiveId = pickedObject.id;
-          console.log('找到primitive ID:', primitiveId);
         }
 
         // 判断是否是POI图标
         if (primitiveId.startsWith('poi_')) {
           // 通过ID找到对应的POI数据
           const poiId = primitiveId.replace('poi_', '');
-          console.log('查找POI ID:', poiId);
-          console.log('当前筛选后的POI列表:', filteredPois.value.map(p => ({ id: p.id, name: p.name })));
-          
+
           const poi = filteredPois.value.find((p) => p.id === poiId);
-          
+
           if (poi) {
-            console.log('✅ 找到POI:', poi.name, poi);
             showPoiInfoWindow(poi, clickEvent.position);
           } else {
             console.warn('❌ 未找到POI数据，ID:', poiId);
             console.warn('可能的原因：POI已被筛选掉或ID不匹配');
           }
         } else {
-          console.log('点击的不是POI图标，primitiveId:', primitiveId || '空');
         }
       } else {
-        console.log('未pick到任何对象');
       }
     };
 
@@ -344,8 +337,7 @@
       poiClickHandler,
       ScreenSpaceEventType.LEFT_CLICK
     );
-    
-    console.log('✅ POI点击事件已注册');
+
   };
 
   /**
@@ -373,33 +365,13 @@
    */
   const handleGoHere = (poi: PoiInfo) => {
     const { lon, lat } = parsePoiLocation(poi.location);
-    
-    console.log('点击去这里:', poi.name, '坐标:', lon, lat);
-    
-    // 检查目标点是否改变
-    const isSameTarget = 
-      basicInfoStore.targetPoint.lon === lon &&
-      basicInfoStore.targetPoint.lat === lat;
-    
-    if (isSameTarget) {
-      console.log('⚠️ 目标点未改变，直接触发路径规划');
-      // TODO: 直接触发路径规划
-      // 可以通过emit事件或者调用RouteComponent的方法
-    } else {
-      console.log('✅ 更新目标点:', poi.name);
-      // 更新目标点
-      basicInfoStore.targetPoint.lon = lon;
-      basicInfoStore.targetPoint.lat = lat;
-      basicInfoStore.targetPoint.height = 0;
-      
-      console.log('新的目标点:', basicInfoStore.targetPoint);
-      
-      // 飞行到目标点
-      CesiumUtilsSingleton.flyToTarget([lon, lat, 1000], 2);
-      
-      // TODO: 由于targetPoint是响应式的，RouteComponent可以通过watch监听变化来触发路径规划
-    }
-    
+
+    basicInfoStore.targetPoint.lon = lon;
+    basicInfoStore.targetPoint.lat = lat;
+    basicInfoStore.targetPoint.height = 0;
+
+    basicInfoStore.clickHere = !basicInfoStore.clickHere;
+
     // 关闭信息窗口
     closeInfoWindow();
   };

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { reactive, type Reactive } from 'vue';
+import { reactive, ref, type Reactive } from 'vue';
 import config from '@/config/config.json';
 import type { PoiInfo } from '@/types/PointResponse';
 
@@ -27,6 +27,11 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
     lat: config.defaultPosition[1],
     height: config.defaultPosition[2],
   });
+
+  /**
+   * 点击到这里
+   */
+  const clickHere = ref(false);
 
   /**
    * 查询条件
@@ -64,6 +69,7 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
   return {
     originPoint,
     targetPoint,
+    clickHere,
     query,
     livingCirclePois,
     selectedPoiType,
