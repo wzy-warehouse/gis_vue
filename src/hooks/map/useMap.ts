@@ -18,7 +18,6 @@ export const useMap = () => {
       ) {
         const matchResult = pickedObject.id.match(/\d+$/);
         const id = matchResult ? parseInt(matchResult[0]) : -1;
-        console.log(id);
       }
     });
   };
