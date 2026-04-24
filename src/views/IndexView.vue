@@ -31,6 +31,21 @@
   import SearchComponent from '@/component/search/SearchComponent.vue';
   import { useStatusStore } from '@/stores/useStatusStore.ts';
   import RouteComponent from '@/component/route/RouteComponent.vue';
+  import { watch } from 'vue';
+  import { useBasicInfoStore } from '@/stores/useBasicInfoStore';
+  import { CesiumUtilsSingleton } from '@/utils/cesium/CesiumUtils';
+
+  watch(
+    () => useBasicInfoStore().originPoint,
+    () => {
+      CesiumUtilsSingleton.flyToTarget([
+        useBasicInfoStore().originPoint.lon,
+        useBasicInfoStore().originPoint.lat,
+        useBasicInfoStore().originPoint.height,
+      ]);
+    },
+    { deep: true }
+  );
 </script>
 
 <style scoped></style>
