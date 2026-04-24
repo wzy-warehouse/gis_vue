@@ -27,8 +27,8 @@
     // 注册全局点击监听器
     useMap().registerAndClickOnTheListener();
 
-    // 禁止事件
-    useMap().prohibitedEvents();
+    // 注册双击设置目标点
+    useMap().registerDoubleClickSetTarget();
 
     // 默认视角
     CesiumUtilsSingleton.viewToTarget(

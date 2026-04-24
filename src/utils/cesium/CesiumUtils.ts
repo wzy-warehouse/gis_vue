@@ -547,6 +547,40 @@ export class CesiumUtils {
     return { x: windowCoord.x, y: windowCoord.y };
   }
 
+  /**
+   * 解析高德地图polyline字符串并转换为Cartesian3数组
+   * @param polyline - 高德地图polyline字符串，格式为"经度1,纬度1;经度2,纬度2;..."
+   * @param height - 高度（米），默认0
+   * @returns Cartesian3坐标数组
+   */
+  parsePolylineToPositions(
+    polyline: string,
+    height: number = 0
+  ): Cartesian3[] {
+    if (!polyline) return [];
+    
+    const coordinates = polyline.split(';');
+    return coordinates.map((coord) => {
+      const [lon, lat] = coord.split(',').map(Number);
+      return Cartesian3.fromDegrees(lon, lat, height);
+    });
+  }
+
+  /**
+   * 清除步行路线
+   * @param routeId - 路线ID前缀，默认'walking_route'
+   */
+  clearWalkingRoute(routeId: string = 'walking_route'): void {
+    const allEntityIds = this.getEntityIds('custom');
+    const routeEntityIds = Array.from(allEntityIds).filter((id) =>
+      id.startsWith(routeId)
+    );
+    
+    if (routeEntityIds.length > 0) {
+      this.batchRemoveCesiumEntities(routeEntityIds);
+    }
+  }
+
   // ===================== 私有方法 =====================
 
   /**
