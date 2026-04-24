@@ -7,7 +7,7 @@
   import { useBasicInfoStore } from '@/stores/useBasicInfoStore.ts';
   import config from '@/config/config.json';
   import { CesiumUtilsSingleton } from '@/utils/cesium/CesiumUtils';
-  import type { WalkingRouteResponse } from '@/api/location';
+  import type { WalkingRouteResponse } from '@/types/PointResponse';
   import { ElMessage, ElLoading } from 'element-plus';
 
   /**

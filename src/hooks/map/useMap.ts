@@ -1,5 +1,5 @@
 import { CesiumUtilsSingleton } from '@/utils/cesium/CesiumUtils';
-import { ScreenSpaceEventType, Cartesian3 } from 'cesium';
+import { ScreenSpaceEventType, Cartesian3, Cartesian2, Cartographic, Math as CesiumMath } from 'cesium';
 import type { ClickObject } from '@/types/cesium/ClickObject';
 import { useBasicInfoStore } from '@/stores/useBasicInfoStore';
 
@@ -34,26 +34,16 @@ export const useMap = () => {
     if (!viewer) return;
 
     viewer.screenSpaceEventHandler.setInputAction(
-      (clickEvent: { position: { x: number; y: number } }) => {
+      (clickEvent: { position: Cartesian2 }) => {
         // 获取点击位置的笛卡尔坐标
         const cartesian = viewer.scene.pickPosition(clickEvent.position);
         if (cartesian) {
           // 转换为经纬度
-          const cartographic = Cartesian3.fromRadians(
-            Math.atan2(cartesian.y, cartesian.x),
-            Math.asin(cartesian.z / Math.sqrt(cartesian.x ** 2 + cartesian.y ** 2 + cartesian.z ** 2)),
-            0
-          );
+          const cartographic = Cartographic.fromCartesian(cartesian);
           
           // 获取经纬度（弧度转度）
-          const lon = (Math.atan2(cartesian.y, cartesian.x) * 180) / Math.PI;
-          const lat =
-            (Math.asin(
-              cartesian.z /
-                Math.sqrt(cartesian.x ** 2 + cartesian.y ** 2 + cartesian.z ** 2)
-            ) *
-              180) /
-            Math.PI;
+          const lon = CesiumMath.toDegrees(cartographic.longitude);
+          const lat = CesiumMath.toDegrees(cartographic.latitude);
 
           // 更新目标点
           basicInfoStore.targetPoint.lon = lon;

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="poi-info-window" :style="windowStyle">
+  <div v-if="visible && poiData" class="poi-info-window" :style="windowStyle">
     <el-card class="info-card" shadow="always">
       <template #header>
         <div class="card-header">
