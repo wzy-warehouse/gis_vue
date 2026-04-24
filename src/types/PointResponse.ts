@@ -32,3 +32,39 @@ export interface PointResponse {
   /** 地理编码信息列表（失败时通常为空数组） */
   geocodes: Geocode[];
 }
+
+/**
+ * POI兴趣点信息
+ */
+export interface PoiInfo {
+  /** POI名称 */
+  name: string;
+  /** POI类型 */
+  type: string;
+  /** POI类型编码 */
+  typecode: string;
+  /** 经纬度坐标 "经度,纬度" */
+  location: string;
+  /** 地址 */
+  address: string;
+  /** 距离（米） */
+  distance?: string;
+  /** 联系电话 */
+  tel?: string;
+  /** POI ID */
+  id: string;
+}
+
+/**
+ * 生活圈查询响应
+ */
+export interface LivingCircleResponse {
+  /** 返回结果状态值：0-请求失败；1-请求成功 */
+  status: '0' | '1';
+  /** 返回结果数目 */
+  count: string;
+  /** 状态说明 */
+  info: string;
+  /** POI列表 */
+  pois: PoiInfo[];
+}
