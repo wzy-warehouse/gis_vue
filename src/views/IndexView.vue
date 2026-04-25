@@ -4,22 +4,22 @@
   <MapComponent />
 
   <!-- 加载完成后获取地址 -->
-  <AddressComponent />
+  <AddressComponent v-if="useStatusStore().appLoadingCompleted" />
 
   <!-- 搜索组件 -->
-  <SearchComponent />
+  <SearchComponent v-if="useStatusStore().appLoadingCompleted" />
 
   <!-- 输入框组件（时间、距离） -->
-  <InputComponent />
+  <InputComponent v-if="useStatusStore().appLoadingCompleted" />
 
   <!-- 获取周边生活圈的点 -->
-  <AroundComponent />
+  <AroundComponent v-if="useStatusStore().appLoadingCompleted" />
 
   <!-- 将生活区点显示到地图 -->
-  <AroundPointShowComponent />
+  <AroundPointShowComponent v-if="useStatusStore().appLoadingCompleted" />
 
   <!-- 路径规划 -->
-  <RouteComponent />
+  <RouteComponent v-if="useStatusStore().appLoadingCompleted" />
 </template>
 
 <script setup lang="ts">
@@ -29,6 +29,8 @@
   import InputComponent from '@/component/input/InputComponent.vue';
   import MapComponent from '@/component/map/MapComponent.vue';
   import SearchComponent from '@/component/search/SearchComponent.vue';
+  import { useStatusStore } from '@/stores/useStatusStore.ts';
+  import RouteComponent from '@/component/route/RouteComponent.vue';
 </script>
 
 <style scoped></style>
