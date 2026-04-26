@@ -8,6 +8,7 @@
   import { $api } from '@/api/api';
   import { useStatusStore } from '@/stores/useStatusStore';
   import { useBasicInfoStore } from '@/stores/useBasicInfoStore';
+  import { wgs84ToGcj02 } from '@/utils/coord/coordTransform';
 
   const statusStore = useStatusStore();
   const basicInfoStore = useBasicInfoStore();
@@ -81,9 +82,11 @@
   const loadCurrentLocation = async () => {
     try {
       const coordinate = await getBrowserCoordinate();
+      // 高德底图与接口使用 GCJ-02，这里将浏览器 WGS84 坐标转为 GCJ-02
+      const gcjCoordinate = wgs84ToGcj02(coordinate.lon, coordinate.lat);
       const regeoResp = await $api.location.getAddressByCoordinate(
-        coordinate.lon,
-        coordinate.lat
+        gcjCoordinate.lon,
+        gcjCoordinate.lat
       );
 
       if (regeoResp.status !== '1' || !regeoResp.regeocode) {
@@ -92,8 +95,8 @@
 
       const addressComponent = regeoResp.regeocode.addressComponent;
       applyCurrentLocation({
-        lon: coordinate.lon,
-        lat: coordinate.lat,
+        lon: gcjCoordinate.lon,
+        lat: gcjCoordinate.lat,
         province: addressComponent.province || '',
         city: Array.isArray(addressComponent.city)
           ? addressComponent.city[0] || ''
