@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { reactive, type Reactive } from 'vue';
+import { reactive, ref, type Reactive } from 'vue';
 import config from '@/config/config.json';
-import type { PointResponse } from '@/types/PointResponse';
+import type { PoiInfo } from '@/types/PointResponse';
 
 /**
  * 基础信息仓库
@@ -29,6 +29,11 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
   });
 
   /**
+   * 点击到这里
+   */
+  const clickHere = ref(false);
+
+  /**
    * 查询条件
    */
   const query: Reactive<{ type: 'time' | 'distance'; value: number }> =
@@ -38,9 +43,16 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
     });
 
   /**
-   * 查询点列表
+   * 生活圈POI数据列表
    */
-  const pointsList: Reactive<PointResponse[]> = reactive([]);
+  const livingCirclePois: Reactive<PoiInfo[]> = reactive([]);
+
+  /**
+   * 当前选中的POI类型（用于筛选）
+   */
+  const selectedPoiType = reactive({
+    type: 'all' as string,
+  });
 
   /**
    * 当前用户所在地信息
@@ -54,5 +66,13 @@ export const useBasicInfoStore = defineStore('basicInfo', () => {
     source: '' as '' | 'gps' | 'ip',
   });
 
-  return { originPoint, targetPoint, query, pointsList, currentLocation };
+  return {
+    originPoint,
+    targetPoint,
+    clickHere,
+    query,
+    livingCirclePois,
+    selectedPoiType,
+    currentLocation,
+  };
 });

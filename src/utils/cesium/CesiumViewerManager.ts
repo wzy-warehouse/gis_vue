@@ -2,7 +2,7 @@ import {
   Viewer,
   SceneMode,
   Ion,
-  WebMapTileServiceImageryProvider,
+  UrlTemplateImageryProvider,
   ImageryProvider,
   PolygonHierarchy,
   Cartesian3,
@@ -200,35 +200,32 @@ export class CesiumViewerManager {
     type: number,
     tdMapToken: string[]
   ): ImageryProvider[] {
-    const option = {
-      tileMatrixSetID: 'w',
-      format: 'tiles',
-      style: 'default',
-      minimumLevel: 0,
-      maximumLevel: 18,
-      credit: 'Tianditu',
-      subdomains: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
-    };
-
-    const token = tdMapToken[Math.floor(Math.random() * tdMapToken.length)];
-
     if (type === 0) {
-      const imageryProvider = new WebMapTileServiceImageryProvider({
-        url: `https://{s}.tianditu.gov.cn/img_w/wmts?tk=${token}`,
-        layer: 'img',
-        ...option,
+      // 高德影像图
+      const imageryProvider = new UrlTemplateImageryProvider({
+        url: 'https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
+        subdomains: ['1', '2', '3', '4'],
+        minimumLevel: 0,
+        maximumLevel: 18,
+        credit: '高德地图',
       });
-      const annotationProvider = new WebMapTileServiceImageryProvider({
-        url: `https://{s}.tianditu.gov.cn/cia_w/wmts?tk=${token}`,
-        layer: 'cia',
-        ...option,
+      // 高德中文标注图层
+      const annotationProvider = new UrlTemplateImageryProvider({
+        url: 'https://wprd0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=8',
+        subdomains: ['1', '2', '3', '4'],
+        minimumLevel: 0,
+        maximumLevel: 18,
+        credit: '高德地图',
       });
       return [imageryProvider, annotationProvider];
     } else {
-      const vectorProvider = new WebMapTileServiceImageryProvider({
-        url: `https://{s}.tianditu.gov.cn/vec_w/wmts?tk=${token}`,
-        layer: 'vec',
-        ...option,
+      // 高德矢量图（包含标注）
+      const vectorProvider = new UrlTemplateImageryProvider({
+        url: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}',
+        subdomains: ['1', '2', '3', '4'],
+        minimumLevel: 0,
+        maximumLevel: 18,
+        credit: '高德地图',
       });
       return [vectorProvider];
     }
